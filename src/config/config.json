@@ -1,0 +1,4 @@
+{
+    "apiUrlUsers": "https://cgjresszgg.execute-api.eu-west-1.amazonaws.com/users",
+    "apiUrlTeams": "https://cgjresszgg.execute-api.eu-west-1.amazonaws.com/teams"
+}

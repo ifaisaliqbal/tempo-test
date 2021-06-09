@@ -1,14 +1,8 @@
 import React from "react";
+import TeamUserDisplay from "./TeamUserDisplay";
 import { render, cleanup } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
 import "@testing-library/jest-dom/extend-expect";
-import App from "./App";
-
-test("renders learn react link", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Teams/i);
-  expect(linkElement).toBeInTheDocument();
-});
 
 const onChange = jest.fn();
 afterEach(cleanup);
@@ -18,40 +12,33 @@ describe("TeamUserDisplay tests:", () => {
     const location = {
       pathname: "/1",
     };
-    const allUsers = [
-      {
-        id: 1,
-        displayName: "test user",
-      },
-    ];
-    const fakeTeams = [
-      {
-        id: 1,
-        name: "test",
-        teamMemberIds: [1],
-      },
-    ];
+    const fakeUser = {
+      id: 1,
+      displayName: "test user",
+    };
+    const fakeTeam = {
+      id: 1,
+      name: "test",
+      teamMemberIds: [1],
+    };
     jest.spyOn(global, "fetch").mockImplementation((url) => {
       if (url.indexOf("users") > -1) {
         return Promise.resolve({
-          json: () => Promise.resolve(allUsers),
+          json: () => Promise.resolve(fakeUser),
         });
       }
 
       if (url.indexOf("teams") > -1) {
         return Promise.resolve({
-          json: () => Promise.resolve(fakeTeams),
+          json: () => Promise.resolve(fakeTeam),
         });
       }
     });
 
-    const { queryByTestId } = render(<App />);
+    const { queryByTestId } = render(<TeamUserDisplay location={location} />);
     expect(queryByTestId("DataRows")).toBeTruthy();
 
-    const items = await screen.findByText(fakeTeams[0].name);
-    expect(items).toBeTruthy();
-
-    const buttons = await screen.findByText("View Members");
+    const items = await screen.findByText(fakeUser.displayName);
     expect(items).toBeTruthy();
     global.fetch.mockRestore();
   });
