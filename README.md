@@ -1,4 +1,4 @@
-# temio.io test
+# tempo.io test
 
 This project is a React project bootstrapped with Create React App
 
